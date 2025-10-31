@@ -5,11 +5,18 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout
 import numpy as np
-import matplotlib.pyplot as plt
 
-# I had to use tensorflow 2.10 due to technical problems.
-# this has led me down a rabbit hole of reinstalling different versions of different things just to run this project
+import os
+from google.colab import drive
 
+# Mount Google Drive
+drive.mount('/content/gdrive')
+
+PROJECT_ROOT = '/content/gdrive/MyDrive/Colab Notebooks/Data'
+
+# Define the training and validation directories
+TRAIN_DIR = os.path.join(PROJECT_ROOT, 'train')
+VAL_DIR = os.path.join(PROJECT_ROOT, 'valid')
 
 # CONFIG
 # testing small amount just so it doesn't take 10 billion years to run this
@@ -18,11 +25,6 @@ IMG_WIDTH, IMG_HEIGHT = 150, 150
 BATCH_SIZE = 32
 NUM_CLASSES = 3             # crack, missing head and paint off
 EPOCHS = 20                 # CHANGE THIS WHEN TESTING
-
-# file paths
-TRAIN_DIR = r'C:\Users\baotr\Documents\GitHub\AER850-Project2-BaoTran-Submission\Data\train'
-VAL_DIR = r'C:\Users\baotr\Documents\GitHub\AER850-Project2-BaoTran-Submission\Data\valid'
-TEST_DIR = r'C:\Users\baotr\Documents\GitHub\AER850-Project2-BaoTran-Submission\Data\test'
 
 ############################################################################################
 ###################### STEP 1: DATA PROCESSING AND AUGMENTATION ############################
@@ -59,7 +61,7 @@ print(f"Detected Class Names: {class_names}")
 
 # First Conv Block
 model = Sequential([
-    
+
     # First Conv Block
     Conv2D(32, (3, 3), activation='relu', input_shape=(IMG_WIDTH, IMG_HEIGHT, 3)),
     MaxPooling2D(2, 2),
